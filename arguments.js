@@ -14,14 +14,26 @@
 // console.log(sum(1, 2, 3, 4) === 10);
 // console.log(sum(1, 2, 3, 4, 5) === 15);
 
-Function.prototype.myBind = function(ctx) {
-    let bindArgs = Array.from(arguments);
-    that = this;
-    return function(){
-        that.apply(ctx, bindArgs)
+// Function.prototype.myBind = function(ctx) {
+//     let bindArgs = Array.from(arguments);
+//     let that = this;
+//     return function(){
+//         let callArgs = Array.from(arguments);
+//         allArgs = bindArgs.slice(1).concat(callArgs);
+//         that.apply(ctx, allArgs);
+//     }
+// }
+
+// whateverfunction.call(ctx, arg1, arg2,...)
+// whateverfunction.apply(ctx, [args])
+
+Function.prototype.myBind = function(ctx, ...bindArgs) {
+    let that = this;
+    return function(...callArgs) {
+        allArgs = bindArgs.concat(callArgs);
+        that.apply(ctx, allArgs);
     }
 }
-
 
 class Cat {
     constructor(name) {
