@@ -80,20 +80,46 @@
 //   // Pavlov says meow to me!
 //   // true
 
-  function curriedSum(numArgs){
-    const numbers = [];
-    return function _curriedSum(num){
-        numbers.push(num);
-        if (numbers.length === numArgs){
-            let sum = 0;
-            numbers.forEach((el)=>{
-                sum += el;
-            })
-            return sum;
-        } else {
-            return _curriedSum;
+//   function curriedSum(numArgs){
+//     const numbers = [];
+//     return function _curriedSum(num){
+//         numbers.push(num);
+//         if (numbers.length === numArgs){
+//             let sum = 0;
+//             numbers.forEach((el)=>{
+//                 sum += el;
+//             })
+//             return sum;
+//         } else {
+//             return _curriedSum;
+//         }
+//     }
+// }
+// const sum = curriedSum(4);
+// console.log(sum(5)(30)(20)(1)); // => 56
+
+Function.prototype.curry = function(numArgs) {
+    let args = [];
+    let that = this;
+    return _curried = function() {
+        debugger
+        let newArgs = Array.from(arguments);
+        args = args.concat(newArgs);
+        if (args.length === numArgs) {
+            return that.apply(this, args)
+        }
+        else {
+            return _curried;
         }
     }
 }
-const sum = curriedSum(4);
-console.log(sum(5)(30)(20)(1)); // => 56
+
+const sums = function(...arr) {
+    let sum = 0;
+    arr.forEach((el) => sum += el)
+    return sum;
+}
+
+const curriedsum = sums.curry(5);
+
+console.log(curriedsum(1)(2)(3)(2)(1));
